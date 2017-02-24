@@ -52,11 +52,13 @@ public class LogSearchController {
     private String ipAddress;
     private int aroundMinutes = 1;
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
+    private final List<String> allLogFiles = new ArrayList<>();
 
 
     public LogSearchController() {
         customers = logService.allCustomers();
         components = logService.allComponents();
+        components.forEach(c -> allLogFiles.addAll(logService.logFileNames(c)));
     }
 
     public void searchIssuesAround() throws Exception {
@@ -71,10 +73,9 @@ public class LogSearchController {
     }
 
     private void aroundSearch(Date fromDate, Date toDate) {
-        List<String> logFileNames = logService.logFileNames(component);
 
         // Don't include the ones that are already in the view.
-        List<String> otherLogs = logFileNames.stream().filter(lf -> !this.files.stream().anyMatch(l -> l.getFileName().equals(lf))).collect(Collectors.toList());
+        List<String> otherLogs = allLogFiles.stream().filter(lf -> !this.files.stream().anyMatch(l -> l.getFileName().equals(lf))).collect(Collectors.toList());
 
         System.out.println("Other log files: "+otherLogs);
         for (String logFile : otherLogs) {
