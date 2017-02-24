@@ -76,9 +76,12 @@ public class LogSearchController {
         // Don't include the ones that are already in the view.
         List<String> otherLogs = logFileNames.stream().filter(lf -> !this.files.stream().anyMatch(l -> l.getFileName().equals(lf))).collect(Collectors.toList());
 
+        System.out.println("Other log files: "+otherLogs);
         for (String logFile : otherLogs) {
             logs = logService.logsSearch(customer, null, null, fromDate, toDate, null, 0, logFile, ipAddress);
             offsets.put(logFile, 1000);
+            System.out.println("\t\tLogfile: "+logFile);
+            System.out.println("\t\tLogfile Size: "+logs.size());
             LogFile lf = new LogFile();
             lf.setFileName(logFile);
             lf.setLogs(logs);
