@@ -1,0 +1,19 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="layout.xhtml">
+
+    <ui:define name="left">
+        <ui:include src="includes/allLinksAsButtons.xhtml"/>
+    </ui:define>
+
+
+    <ui:define name="main">
+        <a href="http://localhost:5601/app/kibana#/dashboard/Log-Events-Dashboard">Open in Kibana</a>
+        <p:spacer height="5"></p:spacer>
+        <p:separator></p:separator>
+        <iframe src="http://localhost:5601/app/kibana#/dashboard/Log-Events-Dashboard?embed=true&amp;_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:now%2Fw,mode:quick,to:now%2Fw))&amp;_a=(filters:!(),options:(darkTheme:!t),panels:!((col:1,id:No-of-errors-metric,panelIndex:1,row:1,size_x:3,size_y:5,type:visualization),(col:4,id:Errors-by-server-location,panelIndex:2,row:1,size_x:9,size_y:5,type:visualization),(col:1,id:Errors-Timeline-by-component,panelIndex:3,row:6,size_x:12,size_y:6,type:visualization),(col:1,id:Customer-wise-errors-count,panelIndex:4,row:12,size_x:5,size_y:4,type:visualization),(col:6,id:Number-of-errors-in-component,panelIndex:5,row:12,size_x:6,size_y:4,type:visualization)),query:(query_string:(analyze_wildcard:!t,query:'*')),title:Log-Events-Dashboard,uiState:())" height="100%" width="100%"></iframe>
+    </ui:define>
+</ui:composition>

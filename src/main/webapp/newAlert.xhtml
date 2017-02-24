@@ -1,0 +1,59 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                template="layout.xhtml">
+
+    <ui:define name="left">
+        <ui:include src="includes/allLinksAsButtons.xhtml"/>
+    </ui:define>
+
+
+    <ui:define name="main">
+
+        <p:spacer width="10" height="30"/>
+
+        <h:form id="form">
+            <h2>Create a new Alert template</h2>
+            <h:panelGrid columns="2" cellpadding="5" cellspacing="10">
+                <h:outputText value="Customer" style="font-weight:bold"/>
+                <p:selectOneMenu id="customer" value="#{alertConfig.selectedAlertConfig.customerId}"
+                                 panelStyle="width:180px"
+                                 effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="contains">
+                    <f:selectItems value="#{alertConfig.customers}" var="c"
+                                   itemLabel="#{c}"
+                                   itemValue="#{c}"/>
+
+                </p:selectOneMenu>
+                <h:outputLabel for="name" value="Template name:" style="font-weight:bold"/>
+                <p:inputText id="name" value="#{alertConfig.selectedAlertConfig.name}" required="true" label="Name"/>
+
+                <h:outputLabel for="text" value="Search text:" style="font-weight:bold"/>
+                <p:inputTextarea id="text" rows="10" cols="75" value="#{alertConfig.selectedAlertConfig.keyword}"
+                                 placeholder="Search keywords.."/>
+
+                <h:outputLabel for="timeWindowInDays" value="No of days worth of log to search:" style="font-weight:bold"/>
+                <p:inputText id="timeWindowInDays" value="#{alertConfig.selectedAlertConfig.timeWindowInDays}" required="true" label="timeWindowInDays"/>
+
+                <h:outputLabel for="leastCountThreshold" value="Least count threshold" style="font-weight:bold"/>
+                <p:inputText id="leastCountThreshold" value="#{alertConfig.selectedAlertConfig.leastCountThreshold}" required="true" label="leastCountThreshold"/>
+
+                <h:outputLabel for="lowCountThreshold" value="Low count threshold" style="font-weight:bold"/>
+                <p:inputText id="lowCountThreshold" value="#{alertConfig.selectedAlertConfig.lowCountThreshold}" required="true" label="lowCountThreshold"/>
+
+                <h:outputLabel for="mediumCountThreshold" value="Medium count threshold" style="font-weight:bold"/>
+                <p:inputText id="mediumCountThreshold" value="#{alertConfig.selectedAlertConfig.mediumCountThreshold}" required="true" label="mediumCountThreshold"/>
+
+                <h:outputLabel for="highCountThreshold" value="High count threshold" style="font-weight:bold"/>
+                <p:inputText id="highCountThreshold" value="#{alertConfig.selectedAlertConfig.highCountThreshold}" required="true" label="highCountThreshold"/>
+
+                <h:outputLabel for="highestCountThreshold" value="Highest count threshold" style="font-weight:bold"/>
+                <p:inputText id="highestCountThreshold" value="#{alertConfig.selectedAlertConfig.highestCountThreshold}" required="true" label="highestCountThreshold"/>
+
+                <p:commandButton value="Save" id="ajax" update="form" action="#{alertConfig.save}" styleClass="ui-priority-primary" icon="ui-icon-disk"/>
+            </h:panelGrid>
+        </h:form>
+    </ui:define>
+</ui:composition>

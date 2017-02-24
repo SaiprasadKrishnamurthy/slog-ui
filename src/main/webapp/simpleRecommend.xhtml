@@ -1,0 +1,66 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                template="layout.xhtml">
+
+    <ui:define name="left">
+        <ui:include src="includes/allLinksAsButtons.xhtml"/>
+    </ui:define>
+
+
+    <ui:define name="main">
+
+        <p:spacer width="10" height="30"/>
+
+        <h:form id="form">
+            <h1>Causal Recommendations</h1>
+            <h:panelGrid columns="1">
+                <p:selectOneMenu id="customer" value="#{reco.customer}"
+                                 panelStyle="width:180px"
+                                 effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="contains">
+                    <f:selectItems value="#{reco.customers}" var="c"
+                                   itemLabel="#{c}"
+                                   itemValue="#{c}"/>
+
+                </p:selectOneMenu>
+                <p:inputTextarea rows="10" cols="75" value="#{reco.messageFreeText}"
+                                 placeholder="Paste a few parts of the error (eg: com.cisco.server.pojohelpers.common.ProvisioningHelperImpl.createObjectInDevice(ProvisioningHelperImpl.java:1512)"/>
+            </h:panelGrid>
+            <p:separator/>
+            <h:panelGrid columns="3">
+                <h:outputText id="output"
+                              value="Search within the timeframe (in minutes): "/>
+                <p:inputText value="#{reco.aroundMinutes}"/>
+
+
+                <p:commandButton actionListener="#{reco.recommend}" value="Recommend"
+                                 update=":#{p:component('results')}"
+                                 icon="fa fa-search" title="Recommend"
+                                 ajax="true"/>
+            </h:panelGrid>
+
+            <p:separator/>
+            <p:spacer height="35"/>
+
+
+            <p:panel id="results">
+                <p:tabView value="#{reco.recommendations}" var="e">
+                    <p:tab title="#{e.correlationRuleName}">
+                        <p:panel header="#{e.logs[0].path}">
+                            <ui:repeat value="#{e.logs}" var="l">
+                                <pre>#{l.message}</pre>
+                            </ui:repeat>
+                        </p:panel>
+                    </p:tab>
+                </p:tabView>
+
+                <p:separator></p:separator>
+            </p:panel>
+
+
+        </h:form>
+    </ui:define>
+</ui:composition>

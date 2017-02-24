@@ -1,0 +1,4 @@
+ProxyPass /sp-admin  http://localhost:8080
+ProxyPassReverse /sp-admin  http://localhost:8080
+ProxyPass /javax.faces.resource   http://localhost:8080
+ProxyPassReverse /javax.faces.resource   http://localhost:8080

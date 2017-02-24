@@ -1,0 +1,137 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="layout.xhtml">
+
+    <ui:define name="left">
+        <ui:include src="includes/allLinksAsButtons.xhtml"/>
+    </ui:define>
+
+
+    <ui:define name="main">
+
+        <p:spacer width="10" height="30"/>
+
+        <h:form id="form">
+            <p:panel header="Logs Search" toggleable="true">
+                <h:panelGrid columns="4" cellpadding="5" cellspacing="10">
+                    <h:outputText value="Customer"/>
+                    <p:selectOneMenu id="customer" value="#{logSearch.customer}"
+                                     panelStyle="width:180px"
+                                     effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="contains">
+                        <f:selectItems value="#{logSearch.customers}" var="c"
+                                       itemLabel="#{c}"
+                                       itemValue="#{c}"/>
+
+                    </p:selectOneMenu>
+                    <h:outputText value="Component"/>
+                    <p:selectOneMenu id="component" value="#{logSearch.component}"
+                                     panelStyle="width:180px"
+                                     effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="contains">
+                        <f:selectItems value="#{logSearch.components}" var="c"
+                                       itemLabel="#{c}"
+                                       itemValue="#{c}"/>
+
+                    </p:selectOneMenu>
+                    <p:outputLabel for="datetime1" value="From:"/>
+                    <p:calendar id="datetime1" value="#{logSearch.fromDate}" pattern="MM/dd/yyyy HH:mm:ss"/>
+                    <p:outputLabel for="datetime2" value="To:"/>
+                    <p:calendar id="datetime2" value="#{logSearch.toDate}" pattern="MM/dd/yyyy HH:mm:ss"/>
+                    <h:outputText value="Log Level"/>
+                    <p:selectOneMenu id="logLevel" value="#{logSearch.logLevel}"
+                                     panelStyle="width:180px"
+                                     effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="contains">
+                        <f:selectItem itemLabel="" itemValue="" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="TRACE" itemValue="TRACE" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="DEBUG" itemValue="DEBUG" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="INFO" itemValue="INFO" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="WARN" itemValue="WARN" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="ERROR" itemValue="ERROR" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="FATAL" itemValue="FATAL" noSelectionOption="true"/>
+                    </p:selectOneMenu>
+                    <h:outputText value="Ip Address"/>
+                    <p:inputText id="ipAddress" value="#{logSearch.ipAddress}"/>
+                </h:panelGrid>
+                <h:panelGrid columns="1">
+                    <p:inputTextarea rows="10" cols="75" value="#{logSearch.messageFreeText}"
+                                     placeholder="Any text here to be searched.."/>
+                </h:panelGrid>
+                <h:panelGrid columns="1">
+                    <p:commandButton actionListener="#{logSearch.search}" value="Search"
+                                     update=":#{p:component('results')}"
+                                     icon="fa fa-search" title="Search"
+                                     ajax="true"/>
+                </h:panelGrid>
+            </p:panel>
+            <p:separator/>
+
+            <p:spacer height="10"/>
+            <p:tabView value="#{logSearch.files}" var="file" id="results" activeIndex="#{logSearch.logFileTabIndex}">
+                <p:tab title="#{file.fileName}" id="id_#{file.fileName}" closeable="true">
+                    <h:panelGrid columns="2">
+                        <p:commandButton action="#{logSearch.prevSet}" icon="fa fa-backward"
+                                         title="Show previous set"
+                                         ajax="true" update="results">
+                            <f:param name="fileName" value="#{file.fileName}"/>
+                        </p:commandButton>
+                        <p:commandButton action="#{logSearch.nextSet}" icon="fa fa-forward"
+                                         title="Show next set"
+                                         ajax="true" update="results">
+                            <f:param name="fileName" value="#{file.fileName}"/>
+                        </p:commandButton>
+                    </h:panelGrid>
+                    <p:dataTable var="log" value="#{file.logs}">
+                        <p:column style="width:16px">
+                            <p:rowToggler/>
+                        </p:column>
+                        <p:column headerText="Timestamp" style="width:100px;">
+                            <h:outputText value="#{log.logTimestamp}"/>
+                        </p:column>
+
+                        <p:column headerText="Raw" styleClass="#{log.error}">
+                            <h:outputText value="#{log.message}" escape="false"/>
+                        </p:column>
+                        <p:rowExpansion>
+                            <p:panelGrid columns="2" columnClasses="label,value" style="width:100%">
+                                <f:facet name="header">
+                                    <h:outputText value="Details"/>
+                                </f:facet>
+
+                                <h:outputText value="Customer: "/>
+                                <h:outputText value="#{log.customerId}"/>
+
+                                <h:outputText value="Component: "/>
+                                <h:outputText value="#{log.type}"/>
+
+                                <h:outputText value="Log file location: "/>
+                                <h:outputText value="#{log.path}"/>
+
+
+                                <h:outputText value="Find issues around this: "/>
+                                <p:commandButton value="Select time range" type="button" onclick="PF('dlg1').show();"/>
+
+
+                            </p:panelGrid>
+
+                            <p:dialog header="Choose time window to stretch your search" widgetVar="dlg1"
+                                      minHeight="40">
+                                <h:outputText id="output" value="+/- #{logSearch.aroundMinutes} minutes"/>
+                                <h:inputHidden id="txt2" value="#{logSearch.aroundMinutes}"/>
+                                <p:slider for="txt2" display="output" style="width: 200px"
+                                          displayTemplate="+/- {value} minutes"/>
+                                <p:separator></p:separator>
+                                <p:commandButton value="Select" oncomplete="PF('dlg1').hide();"
+                                                 action="#{logSearch.searchIssuesAround}"
+                                                 update=":#{p:component('results')}" ajax="false">
+                                    <f:param name="timestamp" value="#{log.logTimestamp}"/>
+                                </p:commandButton>
+                            </p:dialog>
+                        </p:rowExpansion>
+                    </p:dataTable>
+                </p:tab>
+            </p:tabView>
+        </h:form>
+    </ui:define>
+</ui:composition>

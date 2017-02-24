@@ -1,0 +1,79 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                template="layout.xhtml">
+
+    <ui:define name="left">
+        <ui:include src="includes/allLinksAsButtons.xhtml"/>
+    </ui:define>
+
+
+    <ui:define name="main">
+
+        <p:spacer width="10" height="30"/>
+
+        <h:form id="form">
+            <h2>Manage Alert templates</h2>
+            <h:panelGrid columns="2" cellpadding="5" cellspacing="10">
+                <h:outputText value="Customer"/>
+                <p:selectOneMenu id="customer" value="#{alertConfig.selectedCustomer}"
+                                 panelStyle="width:180px"
+                                 effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="contains">
+                    <p:ajax listener="#{alertConfig.onSelectCustomer}" update=":#{p:component('results')}"/>
+                    <f:selectItem itemLabel="" itemValue="" noSelectionOption="true"/>
+
+                    <f:selectItems value="#{alertConfig.customers}" var="c"
+                                   itemLabel="#{c}"
+                                   itemValue="#{c}"/>
+
+                </p:selectOneMenu>
+            </h:panelGrid>
+            <p:separator/>
+
+            <p:panel id="results">
+                <p:dataGrid var="car" value="#{alertConfig.filteredConfigs}" columns="3" layout="grid"
+                            rows="12" paginator="true" id="cars"
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="6,12,16">
+
+                    <f:facet name="header">
+                        Available alert configs
+                    </f:facet>
+
+                    <p:panel header="Template name:  #{car.name}" style="text-align:center">
+                        <h:panelGrid columns="2" style="width:100%">
+
+                            <h:outputText value="Search keyword: "/>
+                            <h:outputText value="#{car.keyword}"/>
+
+                            <h:outputText value="Search window in days: "/>
+                            <h:outputText value="#{car.timeWindowInDays}"/>
+
+                            <h:outputText value="Least count threshold: "/>
+                            <h:outputText value="#{car.leastCountThreshold}"/>
+
+                            <h:outputText value="Low count threshold: "/>
+                            <h:outputText value="#{car.lowCountThreshold}"/>
+
+                            <h:outputText value="Medium count threshold: "/>
+                            <h:outputText value="#{car.mediumCountThreshold}"/>
+
+                            <h:outputText value="High count threshold: "/>
+                            <h:outputText value="#{car.highCountThreshold}"/>
+
+                            <h:outputText value="Highest count threshold: "/>
+                            <h:outputText value="#{car.highestCountThreshold}"/>
+
+
+                            <a href="newAlert.do?name=#{car.name}">Edit</a>
+                        </h:panelGrid>
+                    </p:panel>
+
+                </p:dataGrid>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

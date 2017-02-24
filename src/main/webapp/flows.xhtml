@@ -1,0 +1,124 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                template="layout.xhtml">
+
+    <ui:define name="left">
+        <ui:include src="includes/allLinksAsButtons.xhtml"/>
+    </ui:define>
+
+
+    <ui:define name="main">
+
+        <p:spacer width="10" height="30"/>
+
+        <h:form id="form">
+            <p:panel header="Behavioural Flows Search" toggleable="true">
+                <h:panelGrid columns="10" cellpadding="5" cellspacing="10">
+                    <h:outputText value="Customer"/>
+                    <p:selectOneMenu id="customer" value="#{logSearch.customer}"
+                                     panelStyle="width:180px"
+                                     effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="contains">
+                        <f:selectItems value="#{logSearch.customers}" var="c"
+                                       itemLabel="#{c}"
+                                       itemValue="#{c}"/>
+
+                    </p:selectOneMenu>
+                    <p:outputLabel for="functionality" value="Functionality:"/>
+                    <p:inputText id="functionality" value="#{logSearch.flowFunctionality}" />
+
+                    <!--<p:outputLabel for="logLevel" value="Log Level:"/>
+                    <p:selectOneMenu id="logLevel" value="#{logSearch.logLevel}"
+                                     panelStyle="width:180px"
+                                     effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="contains">
+                        <f:selectItem itemLabel="" itemValue="" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="TRACE" itemValue="TRACE" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="DEBUG" itemValue="DEBUG" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="INFO" itemValue="INFO" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="WARN" itemValue="WARN" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="ERROR" itemValue="ERROR" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="FATAL" itemValue="FATAL" noSelectionOption="true"/>
+                    </p:selectOneMenu>-->
+
+                    <p:outputLabel for="datetime1" value="From:"/>
+                    <p:calendar id="datetime1" value="#{logSearch.fromDate}" pattern="MM/dd/yyyy HH:mm:ss"/>
+
+                    <p:outputLabel for="datetime2" value="To:"/>
+                    <p:calendar id="datetime2" value="#{logSearch.toDate}" pattern="MM/dd/yyyy HH:mm:ss"/>
+                    <p:commandButton actionListener="#{logSearch.flowSearch}" value="Search"
+                                     update=":#{p:component('results')}"
+                                     icon="fa fa-search" title="Search"
+                                     ajax="true"/>
+                </h:panelGrid>
+            </p:panel>
+
+            <p:spacer height="10"/>
+            <p:panel id="results">
+            <p:dataTable var="ar" value="#{logSearch.stepIndex}" rows="10"
+                         paginator="true"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15,25,45,50,100"
+                         rendered="#{logSearch.showLogs}">
+                <p:column headerText="Outcome">
+                    #{ar.logLevel}
+                </p:column>
+                <p:column headerText="Id">
+                    #{ar.sessionId}
+                </p:column>
+                <p:column headerText="Functionality">
+                    #{ar.functionality}
+                </p:column>
+                <p:column headerText="">
+                    <p:commandButton value="View this flow" action="#{logSearch.viewSteps}" icon="fa fa-eye"
+                                     title="Search"
+                                     ajax="true" update=":#{p:component('flowd')}">
+                        <f:param name="sessionId" value="#{ar.sessionId}"/>
+                        <f:param name="functionality" value="#{ar.functionality}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+            </p:panel>
+            <p:tabView id="flowd">
+                <p:tab title="Flow" rendered="#{logSearch.renderDiagram}">
+                    <p:scrollPanel mode="native" style="width:95%;height:500px">
+                        <div class="diagram">
+                            #{logSearch.seq}
+                        </div>
+                        <script>
+                $(".diagram").sequenceDiagram({theme: 'simple'});
+                        </script>
+                    </p:scrollPanel>
+                </p:tab>
+                <p:tab title="Logs Raw" rendered="#{logSearch.renderDiagram}">
+                    <p:tabView value="#{logSearch.files}" var="file" id="results1" activeIndex="#{logSearch.logFileTabIndex}">
+                        <p:tab title="#{file.fileName}" id="id_#{file.fileName}" closeable="true">
+                            <h:panelGrid columns="2">
+                                <p:commandButton action="#{logSearch.prevSet}" icon="fa fa-backward"
+                                                 title="Show previous set"
+                                                 ajax="true" update="results1">
+                                    <f:param name="fileName" value="#{file.fileName}"/>
+                                </p:commandButton>
+                                <p:commandButton  action="#{logSearch.nextSet}" icon="fa fa-forward"
+                                                  title="Show next set"
+                                                  ajax="true" update="results1">
+                                    <f:param name="fileName" value="#{file.fileName}"/>
+                                </p:commandButton>
+                            </h:panelGrid>
+                            <p:scrollPanel mode="native" style="width:95%;height:500px;background-color:black;color:#33cc33">
+                                <b>
+                                    <ui:repeat value="#{file.logs}" var="log">
+                                        <pre>#{log.message}</pre>
+                                    </ui:repeat>
+                                </b>
+                            </p:scrollPanel>
+                        </p:tab>
+                    </p:tabView>
+                </p:tab>
+            </p:tabView>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

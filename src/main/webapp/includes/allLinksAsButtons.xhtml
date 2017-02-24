@@ -1,0 +1,27 @@
+<h:form xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:p="http://primefaces.org/ui">
+    <p:panelMenu style="width:200px">
+        <p:submenu label="Information">
+            <p:menuitem value="Logs Search" url="logsSearch.do" icon="fa fa-search"/>
+        </p:submenu>
+        <p:submenu label="Intelligence">
+            <p:menuitem value="Defect-Defect Correlations" url="comingSoon.do" icon="fa fa-bolt"/>
+            <p:menuitem value="Recommend causes" url="simpleRecommend.do" icon="fa fa-bolt"/>
+            <p:menuitem value="Defect-Flow Correlations" url="comingSoon.do" icon="fa fa-bolt"/>
+            <p:menuitem value="Flow-Flow Correlations" url="comingSoon.do" icon="fa fa-bolt"/>
+        </p:submenu>
+        <p:submenu label="Insights">
+            <p:menuitem value="Log Dashboards" url="logDashboards.do" icon="fa fa-dashboard"/>
+            <p:menuitem value="Behavioural Flows" url="flows.do" icon="fa fa-eye"/>
+            <p:menuitem value="Exception Alerts" url="alerts.do" icon="fa fa-warning"/>
+        </p:submenu>
+        <p:separator/>
+        <p:submenu label="Log Admin">
+            <p:menuitem value="Create Alert Template" url="newAlert.do" icon="fa fa-plus"/>
+            <p:menuitem value="Alert Templates" url="manageAlerts.do" icon="fa fa-cogs"/>
+        </p:submenu>
+    </p:panelMenu>
+</h:form>
