@@ -17,8 +17,8 @@ import java.util.Map;
 @Data
 public class LoginController {
 
-    private String userName;
-    private String password;
+    private String userName = "guest";
+    private String password = "XPQjsXeT";
 
     public void login() throws Exception {
         if (!verify(userName, password)) {
