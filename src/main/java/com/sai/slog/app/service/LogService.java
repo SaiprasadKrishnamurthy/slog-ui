@@ -3,6 +3,7 @@ package com.sai.slog.app.service;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sai.slog.app.model.*;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
@@ -115,7 +116,8 @@ public class LogService {
 
         Map<String, Object> rq = new HashMap<>();
         rq.put("showAllFilesPerComponent", true);
-        rq.put("component", component);
+        rq.put("component", component.replace("\n", ""));
+
 
         List response = rest.postForObject(System.getProperty("log.search.endpoint").trim(), rq, List.class);
         response.forEach(res -> components.add(((Map) res).get("key").toString()));
