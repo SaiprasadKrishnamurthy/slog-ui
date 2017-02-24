@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="3f6b0c36-efe7-4963-8215-484c184b4234" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/sai/slog/app/controllers/LoginController.java" afterPath="$PROJECT_DIR$/src/main/java/com/sai/slog/app/controllers/LoginController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/users.json" afterPath="$PROJECT_DIR$/src/main/resources/users.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/public.xhtml" afterPath="$PROJECT_DIR$/src/main/webapp/public.xhtml" />
     </list>
     <ignored path="slog-ui.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,11 +35,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LoginController.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="LoginController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/sai/slog/app/controllers/LoginController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.37848607">
-              <caret line="28" column="31" selection-start-line="28" selection-start-column="31" selection-end-line="28" selection-end-column="31" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="20" column="39" selection-start-line="20" selection-start-column="31" selection-end-line="20" selection-end-column="39" />
               <folding />
             </state>
           </provider>
@@ -66,11 +65,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="public.xhtml" pinned="false" current-in-tab="false">
+      <file leaf-file-name="public.xhtml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/public.xhtml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.125">
-              <caret line="23" column="74" selection-start-line="23" selection-start-column="66" selection-end-line="23" selection-end-column="74" />
+            <state vertical-scroll-proportion="0.74485594">
+              <caret line="43" column="90" selection-start-line="43" selection-start-column="90" selection-end-line="43" selection-end-column="90" />
               <folding />
             </state>
           </provider>
@@ -167,7 +166,6 @@
         <option value="$PROJECT_DIR$/src/main/webapp/comingSoon.xhtml" />
         <option value="$PROJECT_DIR$/src/main/webapp/logDashboards.xhtml" />
         <option value="$PROJECT_DIR$/src/main/java/com/sai/slog/app/model/StepLookupIndex.java" />
-        <option value="$PROJECT_DIR$/src/main/webapp/public.xhtml" />
         <option value="$PROJECT_DIR$/src/main/java/com/sai/slog/app/model/AlertConfig.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/newAlert.xhtml" />
         <option value="$PROJECT_DIR$/src/main/java/com/sai/slog/app/controllers/AlertConfigController.java" />
@@ -187,6 +185,7 @@
         <option value="$PROJECT_DIR$/src/main/java/com/sai/slog/app/controllers/information/LogSearchController.java" />
         <option value="$PROJECT_DIR$/src/main/resources/users.json" />
         <option value="$PROJECT_DIR$/src/main/java/com/sai/slog/app/controllers/LoginController.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/public.xhtml" />
       </list>
     </option>
   </component>
@@ -882,7 +881,13 @@
       <option name="project" value="LOCAL" />
       <updated>1487897727623</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Empty to null strings for around search">
+      <created>1487897824548</created>
+      <option name="number" value="00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1487897824548</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1327,14 +1332,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/public.xhtml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.125">
-          <caret line="23" column="74" selection-start-line="23" selection-start-column="66" selection-end-line="23" selection-end-column="74" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/users.json">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-2.5">
@@ -1345,8 +1342,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/sai/slog/app/controllers/LoginController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.37848607">
-          <caret line="28" column="31" selection-start-line="28" selection-start-column="31" selection-end-line="28" selection-end-column="31" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="20" column="39" selection-start-line="20" selection-start-column="31" selection-end-line="20" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/public.xhtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.74485594">
+          <caret line="43" column="90" selection-start-line="43" selection-start-column="90" selection-end-line="43" selection-end-column="90" />
           <folding />
         </state>
       </provider>
