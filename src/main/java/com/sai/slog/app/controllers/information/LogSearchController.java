@@ -77,7 +77,7 @@ public class LogSearchController {
         List<String> otherLogs = logFileNames.stream().filter(lf -> !this.files.stream().anyMatch(l -> l.getFileName().equals(lf))).collect(Collectors.toList());
 
         for (String logFile : otherLogs) {
-            logs = logService.logsSearch(customer, "", "", fromDate, toDate, "", 0, logFile, ipAddress);
+            logs = logService.logsSearch(customer, null, null, fromDate, toDate, null, 0, logFile, ipAddress);
             offsets.put(logFile, 1000);
             LogFile lf = new LogFile();
             lf.setFileName(logFile);
