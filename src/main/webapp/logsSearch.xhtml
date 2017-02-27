@@ -91,7 +91,7 @@
                         </p:column>
 
                         <p:column headerText="Raw" styleClass="#{log.error}">
-                            <h:outputText value="#{log.message}" escape="false"/>
+                            <p:outputLabel value="#{log.message}" escape="false"/>
                         </p:column>
                         <p:rowExpansion>
                             <p:panelGrid columns="2" columnClasses="label,value" style="width:100%">
@@ -130,6 +130,18 @@
                             </p:dialog>
                         </p:rowExpansion>
                     </p:dataTable>
+                    <h:panelGrid columns="2">
+                        <p:commandButton action="#{logSearch.prevSet}" icon="fa fa-backward"
+                                         title="Show previous set"
+                                         ajax="true" update="results">
+                            <f:param name="fileName" value="#{file.fileName}"/>
+                        </p:commandButton>
+                        <p:commandButton action="#{logSearch.nextSet}" icon="fa fa-forward"
+                                         title="Show next set"
+                                         ajax="true" update="results">
+                            <f:param name="fileName" value="#{file.fileName}"/>
+                        </p:commandButton>
+                    </h:panelGrid>
                 </p:tab>
             </p:tabView>
         </h:form>

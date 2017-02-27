@@ -140,6 +140,12 @@ public class LogService {
         return (List<ExceptionCorrelation>) response.stream().map(c -> objectMapper.convertValue(c, ExceptionCorrelation.class)).collect(toList());
     }
 
+    public List<LogCorrelation> correlations(String component) {
+        String recoUrl = "http://localhost:9980/logcorrelations?component=%s";
+        List response = rest.getForObject(String.format(recoUrl, component), List.class);
+        return (List<LogCorrelation>) response.stream().map(c -> objectMapper.convertValue(c, LogCorrelation.class)).collect(toList());
+    }
+
     public static void main(String[] args) {
         String recoUrl = "http://localhost:9980/exceptioncorrelations?customer=%s&exceptionMessage=%s&startTimeInMillis=%s&endTimeInMillis=%s";
         List response = rest.getForObject(String.format(recoUrl, "internal", "Provisioning", 1, System.currentTimeMillis()), List.class);

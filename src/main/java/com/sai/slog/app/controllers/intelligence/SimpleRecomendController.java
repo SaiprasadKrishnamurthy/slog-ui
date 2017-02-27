@@ -4,8 +4,11 @@ import com.sai.slog.app.model.*;
 import com.sai.slog.app.service.LogService;
 import lombok.Data;
 import org.primefaces.extensions.component.gchart.model.GChartModel;
+import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 import org.primefaces.model.diagram.DefaultDiagramModel;
+import org.primefaces.model.mindmap.DefaultMindmapNode;
+import org.primefaces.model.mindmap.MindmapNode;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -30,7 +33,6 @@ public class SimpleRecomendController {
     private Date toDate = null;
     private String file;
     private DefaultDiagramModel model;
-    private TreeNode root;
     private boolean renderDiagram;
     private GChartModel flow = null;
     private String seq;
@@ -44,15 +46,37 @@ public class SimpleRecomendController {
     private int aroundMinutes = 1;
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
     private List<ExceptionCorrelation> recommendations;
+    private List<LogCorrelation> logCorrelations;
+    private List<MindmapNode> lookups = new ArrayList<>();
+    private MindmapNode root;
 
     public SimpleRecomendController() {
         customers = logService.allCustomers();
         components = logService.allComponents();
+        logCorrelations = logService.correlations("reports");
+        root = new DefaultMindmapNode("reports", "reports");
+        buildTree(logCorrelations, root);
+    }
+
+    private void buildTree(List<LogCorrelation> logCorrelations, MindmapNode root) {
+        for (LogCorrelation logCorrelation : logCorrelations) {
+            System.out.println(logCorrelation);
+            Optional<MindmapNode> existing = lookups.stream().filter(m -> m.getData().equals(logCorrelation.getDescription())).findFirst();
+
+            MindmapNode child = existing.isPresent() ? existing.get() : new DefaultMindmapNode(logCorrelation.getDescription(), logCorrelation.getDescription());
+            if (!existing.isPresent()) {
+                lookups.add(child);
+            }
+            root.addNode(child);
+            if (logCorrelation.getDirectlyCausedBy() != null && !logCorrelation.getDirectlyCausedBy().isEmpty()) {
+                buildTree(new ArrayList<>(logCorrelation.getDirectlyCausedBy()), child);
+            }
+        }
     }
 
     public void recommend() {
-        System.out.println("Curr Timestamp: "+System.currentTimeMillis());
-        System.out.println("From Timestamp: "+(System.currentTimeMillis() - (1000 * 60 * aroundMinutes)));
+        System.out.println("Curr Timestamp: " + System.currentTimeMillis());
+        System.out.println("From Timestamp: " + (System.currentTimeMillis() - (1000 * 60 * aroundMinutes)));
         recommendations = logService.recommendations(customer, (System.currentTimeMillis() - (1000 * 60 * aroundMinutes)), System.currentTimeMillis(), messageFreeText);
         System.out.println(recommendations.size());
         searchResultsFound = true;
