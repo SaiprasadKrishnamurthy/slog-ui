@@ -145,24 +145,24 @@
             <version>6.0.0</version>
         </dependency>
 
-        <dependency>
+        <!--<dependency>
             <groupId>com.sangupta</groupId>
             <artifactId>murmur</artifactId>
             <version>1.0.0</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.jooq/jooq -->
+        &lt;!&ndash; https://mvnrepository.com/artifact/org.jooq/jooq &ndash;&gt;
         <dependency>
             <groupId>org.jooq</groupId>
             <artifactId>jooq</artifactId>
             <version>3.9.1</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
+        &lt;!&ndash; https://mvnrepository.com/artifact/org.mybatis/mybatis &ndash;&gt;
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
             <version>3.4.2</version>
-        </dependency>
+        </dependency>-->
 
 
 
