@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
 /**
  * Created by saipkri on 08/01/17.
@@ -140,10 +141,17 @@ public class LogService {
         return (List<ExceptionCorrelation>) response.stream().map(c -> objectMapper.convertValue(c, ExceptionCorrelation.class)).collect(toList());
     }
 
-    public List<LogCorrelation> correlations(String component) {
+    public Set<LogCorrelation> correlations(String component) {
         String recoUrl = "http://localhost:9980/logcorrelations?component=%s";
         List response = rest.getForObject(String.format(recoUrl, component), List.class);
-        return (List<LogCorrelation>) response.stream().map(c -> objectMapper.convertValue(c, LogCorrelation.class)).collect(toList());
+        return (Set<LogCorrelation>) response.stream().map(c -> objectMapper.convertValue(c, LogCorrelation.class)).collect(toSet());
+    }
+
+    public void save(Set<LogCorrelation> logCorrelations) {
+        String recoUrl = "http://localhost:9980/logcorrelation";
+        for(LogCorrelation l: logCorrelations) {
+            rest.postForObject(recoUrl, l, Map.class);
+        }
     }
 
     public List<ExceptionCorrelation> detrimental(String customer, int minsBack) {

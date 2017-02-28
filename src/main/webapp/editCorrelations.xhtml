@@ -4,6 +4,8 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+
                 template="layout.xhtml">
 
     <ui:define name="left">
@@ -13,12 +15,92 @@
 
     <ui:define name="main">
 
+
         <p:spacer width="10" height="30"/>
 
-        <h:form id="form">
-            <h1>Edit Recommendations</h1>
-            <p:mindmap value="#{reco.root}" style="width: 100%;height: 600px;border: 1px solid black;"/>
+            <h1>Edit Correlations</h1>
+            <p:tabView>
+                <p:tab title="Create Rule" closeable="true">
+                    <h:form id="form2">
 
-        </h:form>
+                        <h:panelGrid columns="2">
+                            <h:outputText value="Description: "></h:outputText>
+                            <p:inputText value="#{reco.description}"></p:inputText>
+                            <h:outputText value="Component: "></h:outputText>
+                            <p:selectOneMenu id="component" value="#{reco.component}"
+                                             panelStyle="width:180px"
+                                             effect="fade" var="t" style="width:160px" filter="true"
+                                             filterMatchMode="contains">
+                                <f:selectItems value="#{logSearch.components}" var="c"
+                                               itemLabel="#{c}"
+                                               itemValue="#{c}"/>
+                            </p:selectOneMenu>
+                            <h:outputText value="Log Snippet (Please be specific) "></h:outputText>
+                            <p:inputTextarea rows="6" cols="33" value="#{reco.logMessage}"/>
+                            <p:commandButton value="Create Rule" action="#{reco.createRule}" ajax="false"/>
+
+                        </h:panelGrid>
+                    </h:form>
+                </p:tab>
+                <p:tab title="Link Rule" closeable="true">
+                    <h:form id="form1">
+
+                        <h:panelGrid columns="2">
+                            <h:outputText value="Rule: "></h:outputText>
+                            <p:selectOneMenu id="rule" value="#{reco.srcLc}"
+                                             panelStyle="width:180px"
+                                             effect="fade" var="t" style="width:160px" filter="true"
+                                             filterMatchMode="contains">
+                                <f:selectItems value="#{reco.logCorrelations}" var="c"
+                                               itemLabel="#{c.description}"
+                                               itemValue="#{c.description}"/>
+                            </p:selectOneMenu>
+                            <h:outputText value="Causes: "></h:outputText>
+                            <p:selectManyMenu id="basic" value="#{reco.causeLc}" filter="true"
+                                              filterMatchMode="contains">
+                                <f:selectItems value="#{reco.logCorrelations}" var="c"
+                                               itemLabel="#{c.description}"
+                                               itemValue="#{c.description}"/>
+                            </p:selectManyMenu>
+                            <p:commandButton value="Link to causes" action="#{reco.link}"
+                                             ajax="false"/>
+
+
+                        </h:panelGrid>
+                    </h:form>
+
+                </p:tab>
+                <p:tab title="View Rules" closeable="true" id="view">
+                    <div id="mynetwork"></div>
+                    <script type="text/javascript">
+  // create an array with nodes
+  var nodes = [
+   <h:outputText value="#{reco.nodesJson}" escape="false"/>
+  ];
+
+  // create an array with edges
+  var edges = [
+       <h:outputText value="#{reco.edgeJson}" escape="false"/>
+
+  ];
+
+  // create a network
+  var container = document.getElementById('mynetwork');
+  var data = {
+    nodes: nodes,
+    edges: edges
+  };
+  var options = {};
+  var network = new vis.Network(container, data, options);
+  network.focusOnNode(1,{scale: 1, offset:{x: -(width/3)}});
+
+
+
+
+
+                    </script>
+                </p:tab>
+            </p:tabView>
+
     </ui:define>
 </ui:composition>

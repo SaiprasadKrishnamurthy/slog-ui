@@ -1,7 +1,6 @@
 package com.sai.slog.app.model;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.util.HashSet;
@@ -11,7 +10,6 @@ import java.util.Set;
  * Created by saipkri on 21/02/17.
  */
 @Data
-@EqualsAndHashCode(exclude = {"directlyCausedBy", "potentiallyCausedBy"})
 @ToString(of = {"description"})
 public class LogCorrelation {
 
@@ -35,5 +33,21 @@ public class LogCorrelation {
 
     public void addPotentialCause(final LogCorrelation logCorrelation) {
         this.potentiallyCausedBy.add(logCorrelation);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        LogCorrelation that = (LogCorrelation) o;
+
+        return description.equals(that.description);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return description.hashCode();
     }
 }
