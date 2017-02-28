@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="3f6b0c36-efe7-4963-8215-484c184b4234" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/loginLayout.xhtml" afterPath="$PROJECT_DIR$/src/main/webapp/loginLayout.xhtml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/layout.xhtml" afterPath="$PROJECT_DIR$/src/main/webapp/layout.xhtml" />
     </list>
     <ignored path="slog-ui.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -105,21 +105,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="layout.xhtml" pinned="false" current-in-tab="false">
+      <file leaf-file-name="layout.xhtml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/layout.xhtml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.5">
-              <caret line="12" column="59" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="59" />
+            <state vertical-scroll-proportion="0.6687898">
+              <caret line="76" column="17" selection-start-line="76" selection-start-column="17" selection-end-line="76" selection-end-column="17" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="loginLayout.xhtml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="loginLayout.xhtml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/loginLayout.xhtml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3821656">
-              <caret line="12" column="59" selection-start-line="12" selection-start-column="59" selection-end-line="12" selection-end-column="59" />
+            <state vertical-scroll-proportion="-4.375">
+              <caret line="16" column="29" selection-start-line="16" selection-start-column="29" selection-end-line="16" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -171,7 +171,6 @@
         <option value="$PROJECT_DIR$/src/main/java/com/sai/slog/app/controllers/AlertsController.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/alerts.xhtml" />
         <option value="$PROJECT_DIR$/src/main/webapp/flows.xhtml" />
-        <option value="$PROJECT_DIR$/src/main/webapp/layout.xhtml" />
         <option value="$PROJECT_DIR$/src/main/java/com/sai/slog/app/model/Log.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/faces-config.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/sai/slog/app/model/LogCorrelation.java" />
@@ -189,6 +188,7 @@
         <option value="$PROJECT_DIR$/src/main/webapp/logsSearch.xhtml" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/webapp/loginLayout.xhtml" />
+        <option value="$PROJECT_DIR$/src/main/webapp/layout.xhtml" />
       </list>
     </option>
   </component>
@@ -877,7 +877,13 @@
       <option name="project" value="LOCAL" />
       <updated>1488217900538</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Html escape fix">
+      <created>1488217993184</created>
+      <option name="number" value="00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1488217993184</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1328,18 +1334,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/layout.xhtml">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/loginLayout.xhtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.5">
-          <caret line="12" column="59" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="59" />
+        <state vertical-scroll-proportion="-4.375">
+          <caret line="16" column="29" selection-start-line="16" selection-start-column="29" selection-end-line="16" selection-end-column="29" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/loginLayout.xhtml">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/layout.xhtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3821656">
-          <caret line="12" column="59" selection-start-line="12" selection-start-column="59" selection-end-line="12" selection-end-column="59" />
+        <state vertical-scroll-proportion="0.6687898">
+          <caret line="76" column="17" selection-start-line="76" selection-start-column="17" selection-end-line="76" selection-end-column="17" />
           <folding />
         </state>
       </provider>
