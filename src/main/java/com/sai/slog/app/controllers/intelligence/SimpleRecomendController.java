@@ -4,8 +4,6 @@ import com.sai.slog.app.model.*;
 import com.sai.slog.app.service.LogService;
 import lombok.Data;
 import org.primefaces.extensions.component.gchart.model.GChartModel;
-import org.primefaces.model.DefaultTreeNode;
-import org.primefaces.model.TreeNode;
 import org.primefaces.model.diagram.DefaultDiagramModel;
 import org.primefaces.model.mindmap.DefaultMindmapNode;
 import org.primefaces.model.mindmap.MindmapNode;
@@ -46,9 +44,11 @@ public class SimpleRecomendController {
     private int aroundMinutes = 1;
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
     private List<ExceptionCorrelation> recommendations;
+    private List<ExceptionCorrelation> detrimentalErrors;
     private List<LogCorrelation> logCorrelations;
     private List<MindmapNode> lookups = new ArrayList<>();
     private MindmapNode root;
+    private int backMinutes;
 
     public SimpleRecomendController() {
         customers = logService.allCustomers();
@@ -77,9 +77,17 @@ public class SimpleRecomendController {
     public void recommend() {
         System.out.println("Curr Timestamp: " + System.currentTimeMillis());
         System.out.println("From Timestamp: " + (System.currentTimeMillis() - (1000 * 60 * aroundMinutes)));
-        recommendations = logService.recommendations(customer, (System.currentTimeMillis() - (1000 * 60 * aroundMinutes)), System.currentTimeMillis(), messageFreeText);
+        recommendations = logService.recommendations("internal", (System.currentTimeMillis() - (1000 * 60 * aroundMinutes)), System.currentTimeMillis(), messageFreeText);
         System.out.println(recommendations.size());
         searchResultsFound = true;
     }
 
+    public void customerSelect() {
+        System.out.println("Customer: "+customer);
+    }
+    public void detrimental() {
+        System.out.println(backMinutes);
+        detrimentalErrors = logService.detrimental(customer, backMinutes);
+        searchResultsFound = true;
+    }
 }

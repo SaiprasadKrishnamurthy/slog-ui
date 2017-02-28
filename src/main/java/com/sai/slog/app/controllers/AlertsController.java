@@ -30,6 +30,8 @@ public class AlertsController {
             m.setTitle(c.getName());
             m.setGaugeLabel("count");
             m.setSeriesColors("66cc66,93b75f,E7E658,cc6666,cc0000");
+            m.setMouseoverHighlight(true);
+            m.setShadow(true);
             List<Number> intervals = new ArrayList<Number>() {{
                 add(c.getLeastCountThreshold());
                 add(c.getLowCountThreshold());

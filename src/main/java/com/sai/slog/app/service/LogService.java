@@ -146,6 +146,14 @@ public class LogService {
         return (List<LogCorrelation>) response.stream().map(c -> objectMapper.convertValue(c, LogCorrelation.class)).collect(toList());
     }
 
+    public List<ExceptionCorrelation> detrimental(String customer, int minsBack) {
+        String recoUrl = "http://localhost:9980/detrimentalexceptions?customer=%s&minutesBackFromNow=%s";
+        System.out.println(String.format(recoUrl, customer, minsBack));
+        List response = rest.getForObject(String.format(recoUrl, customer, minsBack), List.class);
+        System.out.println(response);
+        return (List<ExceptionCorrelation>) response.stream().map(c -> objectMapper.convertValue(c, ExceptionCorrelation.class)).collect(toList());
+    }
+
     public static void main(String[] args) {
         String recoUrl = "http://localhost:9980/exceptioncorrelations?customer=%s&exceptionMessage=%s&startTimeInMillis=%s&endTimeInMillis=%s";
         List response = rest.getForObject(String.format(recoUrl, "internal", "Provisioning", 1, System.currentTimeMillis()), List.class);

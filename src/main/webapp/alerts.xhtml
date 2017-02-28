@@ -22,7 +22,7 @@
                             rows="12" paginator="true" id="cars"
                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                             rowsPerPageTemplate="6,12,16">
-                    <p:chart type="metergauge" model="#{a}" style="width:500px;height:250px"/>
+                    <p:chart type="metergauge" model="#{a}" style="width:500px;height:250px" extender="meterGauge()"/>
 
                 </p:dataGrid>
             </h:panelGrid>

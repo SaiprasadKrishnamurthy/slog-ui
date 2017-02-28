@@ -1,0 +1,56 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                template="layout.xhtml">
+
+    <ui:define name="left">
+        <ui:include src="includes/allLinksAsButtons.xhtml"/>
+    </ui:define>
+
+
+    <ui:define name="main">
+
+        <p:spacer width="10" height="30"/>
+
+        <h:form id="form">
+            <h2>Recommended Detrimental Exceptions</h2>
+            <h:panelGrid columns="8" style="margin-bottom: 10px">
+                <h:outputText value="Customer"/>
+                <p:selectOneMenu id="customer" value="#{reco.customer}"
+                                 panelStyle="width:180px"
+                                 effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="contains">
+                    <f:selectItem itemLabel="" itemValue="" noSelectionOption="true"/>
+
+                    <p:ajax listener="#{reco.customerSelect}"/>
+
+                    <f:selectItems value="#{logSearch.customers}" var="c"
+                                   itemLabel="#{c}"
+                                   itemValue="#{c}"/>
+                </p:selectOneMenu>
+
+                <h:outputText id="output1" value="Time to search backwards from now:    " style="font-weight: bold;"/>
+                <h:inputHidden id="txt2" value="#{reco.backMinutes}"/>
+                <p:spacer/>
+                <p:slider for="txt2" display="output" style="width: 200px"
+                          displayTemplate="+/- {value} minutes">
+                </p:slider>
+                <h:outputText id="output" value="- #{reco.backMinutes} minutes"/>
+                <p:commandButton icon="fa fa-search-plus" action="#{reco.detrimental}"/>
+            </h:panelGrid>
+            <p:separator></p:separator>
+
+            <p:tabView value="#{reco.detrimentalErrors}" var="e" id="results">
+                <p:tab title="#{e.correlationRuleName}">
+                    <p:panel header="#{e.logs[0].path}">
+                        <ui:repeat value="#{e.logs}" var="l">
+                            <pre>#{l.message}</pre>
+                        </ui:repeat>
+                    </p:panel>
+                </p:tab>
+            </p:tabView>
+        </h:form>
+    </ui:define>
+</ui:composition>
