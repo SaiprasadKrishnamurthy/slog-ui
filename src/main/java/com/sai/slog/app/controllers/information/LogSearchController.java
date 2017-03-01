@@ -6,18 +6,24 @@ import com.sai.slog.app.model.Step;
 import com.sai.slog.app.model.StepLookupIndex;
 import com.sai.slog.app.service.LogService;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
+import org.primefaces.context.RequestContext;
 import org.primefaces.extensions.component.gchart.model.GChartModel;
 import org.primefaces.model.TreeNode;
 import org.primefaces.model.diagram.Connection;
 import org.primefaces.model.diagram.DefaultDiagramModel;
 import org.primefaces.model.diagram.Element;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import java.io.File;
+import javax.servlet.http.HttpServletRequest;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 /**
  * Created by saipkri on 03/02/17.
@@ -53,12 +59,30 @@ public class LogSearchController {
     private int aroundMinutes = 1;
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
     private final List<String> allLogFiles = new ArrayList<>();
+    private String bookmarkLink;
 
 
     public LogSearchController() {
         customers = logService.allCustomers();
         components = logService.allComponents();
         components.forEach(c -> allLogFiles.addAll(logService.logFileNames(c)));
+
+        HttpServletRequest rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        if (StringUtils.isNotBlank(rq.getParameter("saved"))) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "You are viewing a shared search"));
+            customer = rq.getParameter("customer");
+            component = rq.getParameter("component");
+            if (StringUtils.isNotBlank(rq.getParameter("from"))) {
+                fromDate = new Date(Long.parseLong(rq.getParameter("from")));
+            }
+            if (StringUtils.isNotBlank(rq.getParameter("to"))) {
+                toDate = new Date(Long.parseLong(rq.getParameter("to")));
+            }
+            logLevel = rq.getParameter("logLevel");
+            ipAddress = rq.getParameter("ipAddress");
+            messageFreeText = rq.getParameter("messageFreeText");
+            search();
+        }
     }
 
     public void searchIssuesAround() throws Exception {
@@ -77,10 +101,10 @@ public class LogSearchController {
         // Don't include the ones that are already in the view.
         List<String> otherLogs = allLogFiles.stream().filter(lf -> !this.files.stream().anyMatch(l -> l.getFileName().equals(lf))).collect(Collectors.toList());
 
-        System.out.println("Other log files: "+otherLogs);
+        System.out.println("Other log files: " + otherLogs);
         for (String logFile : otherLogs) {
             logs = logService.logsSearch(customer, null, null, fromDate, toDate, null, 0, logFile, ipAddress);
-            if(!logs.isEmpty()) {
+            if (!logs.isEmpty()) {
                 offsets.put(logFile, 1000);
                 System.out.println("\t\tLogfile: " + logFile);
                 System.out.println("\t\tLogfile Size: " + logs.size());
@@ -145,6 +169,33 @@ public class LogSearchController {
         logFileTabIndex = IntStream.range(0, files.size()).filter(i -> files.get(i).getFileName().equals(_fileName)).findFirst().getAsInt();
     }
 
+    public void bookmark() throws Exception {
+        StringBuilder out = new StringBuilder();
+        append("customer", customer, out);
+        append("component", component, out);
+        if (fromDate != null) {
+            append("from", fromDate.getTime() + "", out);
+        }
+        if (toDate != null) {
+            append("to", toDate.getTime() + "", out);
+        }
+        append("logLevel", logLevel, out);
+        append("ipAddress", ipAddress, out);
+        append("messageFreeText", messageFreeText, out);
+
+        String url = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getRequestURL().toString();
+        this.bookmarkLink = url + "?" + out.toString() + "saved=true";
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bookmark link", this.bookmarkLink);
+        RequestContext.getCurrentInstance().showMessageInDialog(message);
+
+    }
+
+    private void append(String name, String value, StringBuilder out) {
+        if (StringUtils.isNotBlank(value)) {
+            out.append(name + "=" + value).append("&");
+        }
+    }
+
     private void draw(final Set<Step> steps) {
         this.files.clear();
         List<Step> st = new ArrayList<>(steps);
@@ -184,5 +235,30 @@ public class LogSearchController {
     private Connection createConnection(Element prev, Element curr, Step prevStep, Step currStep, int prevIndex, int currIndex) {
         Connection conn = new Connection(prev.getEndPoints().get(prevIndex), curr.getEndPoints().get(currIndex));
         return conn;
+    }
+
+    public static byte[] compress(String data) throws IOException {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream(data.length());
+        GZIPOutputStream gzip = new GZIPOutputStream(bos);
+        gzip.write(data.getBytes());
+        gzip.close();
+        byte[] compressed = bos.toByteArray();
+        bos.close();
+        return compressed;
+    }
+
+    public static String decompress(byte[] compressed) throws IOException {
+        ByteArrayInputStream bis = new ByteArrayInputStream(compressed);
+        GZIPInputStream gis = new GZIPInputStream(bis);
+        BufferedReader br = new BufferedReader(new InputStreamReader(gis, "UTF-8"));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line);
+        }
+        br.close();
+        gis.close();
+        bis.close();
+        return sb.toString();
     }
 }

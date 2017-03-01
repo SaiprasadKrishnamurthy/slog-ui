@@ -15,6 +15,7 @@
         <p:spacer width="10" height="30"/>
 
         <h:form id="form">
+            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
             <p:panel header="Logs Search" toggleable="true">
                 <h:panelGrid columns="4" cellpadding="5" cellspacing="10">
                     <h:outputText value="Customer"/>
@@ -58,11 +59,16 @@
                     <p:inputTextarea rows="10" cols="75" value="#{logSearch.messageFreeText}"
                                      placeholder="Any text here to be searched.."/>
                 </h:panelGrid>
-                <h:panelGrid columns="1">
+                <h:panelGrid columns="3">
                     <p:commandButton actionListener="#{logSearch.search}" value="Search"
                                      update=":#{p:component('results')}"
                                      icon="fa fa-search" title="Search"
                                      ajax="true"/>
+                    <p:commandButton actionListener="#{logSearch.bookmark}" value="Share"
+                                     update=":#{p:component('results')}"
+                                     icon="fa fa-share" title="Share"
+                                     ajax="true" id="share">
+                            </p:commandButton>
                 </h:panelGrid>
             </p:panel>
             <p:separator/>
