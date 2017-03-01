@@ -80,13 +80,15 @@ public class LogSearchController {
         System.out.println("Other log files: "+otherLogs);
         for (String logFile : otherLogs) {
             logs = logService.logsSearch(customer, null, null, fromDate, toDate, null, 0, logFile, ipAddress);
-            offsets.put(logFile, 1000);
-            System.out.println("\t\tLogfile: "+logFile);
-            System.out.println("\t\tLogfile Size: "+logs.size());
-            LogFile lf = new LogFile();
-            lf.setFileName(logFile);
-            lf.setLogs(logs);
-            this.files.add(lf);
+            if(!logs.isEmpty()) {
+                offsets.put(logFile, 1000);
+                System.out.println("\t\tLogfile: " + logFile);
+                System.out.println("\t\tLogfile Size: " + logs.size());
+                LogFile lf = new LogFile();
+                lf.setFileName(logFile);
+                lf.setLogs(logs);
+                this.files.add(lf);
+            }
         }
         searchResultsFound = true;
     }
