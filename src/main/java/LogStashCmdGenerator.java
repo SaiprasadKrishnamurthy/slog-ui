@@ -108,10 +108,15 @@ public class LogStashCmdGenerator {
                         writer.close();
 
                         //Form LogStash command and Execute it
+
                         String command = "/slog/bin/logstash -f " + dest.getPath() + " < " + path + file;
-                        Process process = Runtime.getRuntime().exec(command);
+                        String[] cmd = { "/bin/sh", "-c", command};
+                        Process process = Runtime.getRuntime().exec(cmd);
                         try {
+                            BufferedReader out = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+                            out.lines().forEach(System.out::println);
                             process.waitFor();
+
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }

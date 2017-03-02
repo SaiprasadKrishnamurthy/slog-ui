@@ -131,6 +131,7 @@ public class SimpleRecomendController {
         System.out.println("Causes: " + causeLc);
 
         LogCorrelation src = logCorrelations.stream().filter(l -> l.getDescription().equals(srcLc)).findFirst().get();
+        src.getDirectlyCausedBy().clear();
         for (String c : causeLc) {
             src.addDirectCause(logCorrelations.stream().filter(l -> l.getDescription().equals(c)).findFirst().get());
         }
