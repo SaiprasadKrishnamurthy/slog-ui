@@ -83,7 +83,7 @@ public class SimpleRecomendController {
     public void recommend() {
         System.out.println("Curr Timestamp: " + System.currentTimeMillis());
         System.out.println("From Timestamp: " + (System.currentTimeMillis() - (1000 * 60 * aroundMinutes)));
-        recommendations = logService.recommendations("internal", (System.currentTimeMillis() - (1000 * 60 * aroundMinutes)), System.currentTimeMillis(), messageFreeText);
+        recommendations = logService.recommendations(customer, (System.currentTimeMillis() - (1000 * 60 * aroundMinutes)), System.currentTimeMillis(), messageFreeText);
         System.out.println(recommendations.size());
         searchResultsFound = true;
     }
