@@ -60,7 +60,7 @@
                     <p:inputText id="ipAddress" value="#{logSearch.ipAddress}"/>
                 </h:panelGrid>
                 <h:panelGrid columns="1">
-                    <p:inputTextarea rows="10" cols="95" value="#{logSearch.messageFreeText}"
+                    <p:inputTextarea rows="10" cols="85" value="#{logSearch.messageFreeText}"
                                      placeholder="Any text here to be searched.."/>
                 </h:panelGrid>
                 <h:panelGrid columns="3">
@@ -94,7 +94,7 @@
                     </h:panelGrid>
                     <p:dataTable var="log" value="#{file.logs}">
                         <f:facet name="header">
-                            Total log entries matching the search criteria: #{log.count}
+                            Total log entries matching the search criteria: #{log.__total__}
                         </f:facet>
                         <p:column style="width:16px">
                             <p:rowToggler/>

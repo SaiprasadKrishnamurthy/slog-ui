@@ -122,10 +122,14 @@ public class LogSearchController {
     public void search() {
         this.files.clear();
         List<String> logFileNames = logService.logFileNames(component);
+        if (StringUtils.isNotBlank(logFileName)) {
+            logFileNames.clear();
+            logFileNames.add(logFileName);
+        }
 
         for (String logFile : logFileNames) {
-            logs = logService.logsSearch(customer, component, logLevel, fromDate, toDate, messageFreeText, 0, logFile, ipAddress);
-            offsets.put(logFile, 1000);
+            logs = logService.logsSearch(customer, component, logLevel, fromDate, toDate, messageFreeText, 0, logFile, ipAddress, tag);
+            offsets.put(logFile, 500);
             LogFile lf = new LogFile();
             lf.setFileName(logFile);
             lf.setLogs(logs);

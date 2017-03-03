@@ -48,7 +48,7 @@ public class LogService {
         return components;
     }
 
-    public List<Log> logsSearch(String customer, String component, String logLevel, Date fromDate, Date toDate, String text, int offset, String fileName, String ipAddress) {
+    public List<Log> logsSearch(String customer, String component, String logLevel, Date fromDate, Date toDate, String text, int offset, String fileName, String ipAddress, String tag) {
         List<Log> logs = new ArrayList<>();
         Map<String, String> criteria = new HashMap<>();
         criteria.put("customer", customer);
@@ -65,6 +65,7 @@ public class LogService {
             criteria.put("toDate", DATE_FORMAT.format(toDate));
         }
         criteria.put("freeTextSearch", text);
+        criteria.put("tags", tag);
         List response = rest.postForObject(System.getProperty("log.search.endpoint").trim(), criteria, List.class);
         response.forEach(res -> logs.add(objectMapper.convertValue(res, Log.class)));
         return logs;
