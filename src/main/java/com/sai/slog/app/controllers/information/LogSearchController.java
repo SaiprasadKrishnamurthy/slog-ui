@@ -59,7 +59,7 @@ public class LogSearchController {
     private String flowFunctionality;
     private String ipAddress;
     private int aroundMinutes = 1;
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd' 'hh:mm:ss");
     private final List<String> allLogFiles = new ArrayList<>();
     private String bookmarkLink;
 
