@@ -105,7 +105,7 @@ public class LogSearchController {
 
         System.out.println("Other log files: " + otherLogs);
         for (String logFile : otherLogs) {
-            logs = logService.logsSearch(customer, null, null, fromDate, toDate, null, 0, logFile, ipAddress);
+            logs = logService.logsSearch(customer, null, null, fromDate, toDate, null, 0, logFile, ipAddress, tag);
             if (!logs.isEmpty()) {
                 offsets.put(logFile, 500);
                 System.out.println("\t\tLogfile: " + logFile);
@@ -159,7 +159,7 @@ public class LogSearchController {
         int start = logFile.getStartRecord();
         start = start - 1000;
         logFile.setStartRecord((start <= 0) ? 0 : start);
-        logs = logService.logsSearch(customer, component, logLevel, fromDate, toDate, messageFreeText, logFile.getStartRecord(), logFile.getFileName(), ipAddress);
+        logs = logService.logsSearch(customer, component, logLevel, fromDate, toDate, messageFreeText, logFile.getStartRecord(), logFile.getFileName(), ipAddress, tag);
         logFile.setLogs(logs);
         logFileTabIndex = IntStream.range(0, files.size()).filter(i -> files.get(i).getFileName().equals(_fileName)).findFirst().getAsInt();
     }
@@ -170,7 +170,7 @@ public class LogSearchController {
         int start = logFile.getStartRecord();
         start = start + 1000;
         logFile.setStartRecord((start < 0) ? 0 : start);
-        logs = logService.logsSearch(customer, component, logLevel, fromDate, toDate, messageFreeText, logFile.getStartRecord(), logFile.getFileName(), ipAddress);
+        logs = logService.logsSearch(customer, component, logLevel, fromDate, toDate, messageFreeText, logFile.getStartRecord(), logFile.getFileName(), ipAddress, tag);
         logFile.setLogs(logs);
         logFileTabIndex = IntStream.range(0, files.size()).filter(i -> files.get(i).getFileName().equals(_fileName)).findFirst().getAsInt();
     }
@@ -230,7 +230,7 @@ public class LogSearchController {
         renderDiagram = true;
         Set<String> logFileNames = steps.stream().map(s -> s.getLogFile().substring(s.getLogFile().lastIndexOf(File.separator) + 1)).collect(Collectors.toSet());
         for (String logFile : logFileNames) {
-            logs = logService.logsSearch(customer, component, logLevel, fromDate, toDate, messageFreeText, 0, logFile, ipAddress);
+            logs = logService.logsSearch(customer, component, logLevel, fromDate, toDate, messageFreeText, 0, logFile, ipAddress, tag);
             offsets.put(logFile, 1000);
             LogFile lf = new LogFile();
             lf.setFileName(logFile);
