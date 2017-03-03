@@ -27,4 +27,8 @@ public class Log {
             return "";
         }
     }
+
+    public String getLogTimestamp() {
+        return logTimestamp.replace("T", " ");
+    }
 }

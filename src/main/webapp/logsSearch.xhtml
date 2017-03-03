@@ -37,9 +37,9 @@
 
                     </p:selectOneMenu>
                     <p:outputLabel for="datetime1" value="From:"/>
-                    <p:calendar id="datetime1" value="#{logSearch.fromDate}" pattern="MM/dd/yyyy HH:mm:ss"/>
+                    <p:calendar id="datetime1" showButtonPanel="true" value="#{logSearch.fromDate}" pattern="MM/dd/yyyy HH:mm:ss"/>
                     <p:outputLabel for="datetime2" value="To:"/>
-                    <p:calendar id="datetime2" value="#{logSearch.toDate}" pattern="MM/dd/yyyy HH:mm:ss"/>
+                    <p:calendar id="datetime2" showButtonPanel="true" value="#{logSearch.toDate}" pattern="MM/dd/yyyy HH:mm:ss"/>
                     <h:outputText value="Log File name (including wildcards)"/>
                     <p:inputText value="#{logSearch.logFileName}"/>
                     <h:outputText value="Search tag"/>
@@ -80,7 +80,7 @@
             <p:spacer height="10"/>
             <p:tabView value="#{logSearch.files}" var="file" id="results" activeIndex="#{logSearch.logFileTabIndex}">
                 <p:tab title="#{file.fileName}" id="id_#{file.fileName}" closeable="true">
-                    <h:panelGrid columns="2">
+                    <h:panelGrid columns="3">
                         <p:commandButton action="#{logSearch.prevSet}" icon="fa fa-backward"
                                          title="Show previous set"
                                          ajax="true" update="results">
@@ -91,11 +91,9 @@
                                          ajax="true" update="results">
                             <f:param name="fileName" value="#{file.fileName}"/>
                         </p:commandButton>
+                        <b><i>#{file.logs[0].__total__} entries found. Listing only 500 entries per page in chronological order</i>.</b>
                     </h:panelGrid>
                     <p:dataTable var="log" value="#{file.logs}">
-                        <f:facet name="header">
-                            Total log entries matching the search criteria: #{log}
-                        </f:facet>
                         <p:column style="width:16px">
                             <p:rowToggler/>
                         </p:column>
