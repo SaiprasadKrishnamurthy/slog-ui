@@ -125,6 +125,7 @@ public class LogSearchController {
         if (StringUtils.isNotBlank(logFileName)) {
             logFileNames.clear();
             logFileNames.add(logFileName);
+            component = "NA";
         }
 
         for (String logFile : logFileNames) {
@@ -157,7 +158,7 @@ public class LogSearchController {
         String _fileName = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("fileName");
         LogFile logFile = files.stream().filter(lf -> lf.getFileName().equals(_fileName)).findFirst().get();
         int start = logFile.getStartRecord();
-        start = start - 1000;
+        start = start - 500;
         logFile.setStartRecord((start <= 0) ? 0 : start);
         logs = logService.logsSearch(customer, component, logLevel, fromDate, toDate, messageFreeText, logFile.getStartRecord(), logFile.getFileName(), ipAddress, tag);
         logFile.setLogs(logs);
@@ -168,7 +169,7 @@ public class LogSearchController {
         String _fileName = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("fileName");
         LogFile logFile = files.stream().filter(lf -> lf.getFileName().equals(_fileName)).findFirst().get();
         int start = logFile.getStartRecord();
-        start = start + 1000;
+        start = start + 500;
         logFile.setStartRecord((start < 0) ? 0 : start);
         logs = logService.logsSearch(customer, component, logLevel, fromDate, toDate, messageFreeText, logFile.getStartRecord(), logFile.getFileName(), ipAddress, tag);
         logFile.setLogs(logs);
@@ -231,7 +232,7 @@ public class LogSearchController {
         Set<String> logFileNames = steps.stream().map(s -> s.getLogFile().substring(s.getLogFile().lastIndexOf(File.separator) + 1)).collect(Collectors.toSet());
         for (String logFile : logFileNames) {
             logs = logService.logsSearch(customer, component, logLevel, fromDate, toDate, messageFreeText, 0, logFile, ipAddress, tag);
-            offsets.put(logFile, 1000);
+            offsets.put(logFile, 500);
             LogFile lf = new LogFile();
             lf.setFileName(logFile);
             lf.setLogs(logs);
