@@ -125,7 +125,7 @@ public class LogSearchController {
         if (StringUtils.isNotBlank(logFileName)) {
             logFileNames.clear();
             logFileNames.add(logFileName);
-            component = "NA";
+            component = null;
         }
 
         for (String logFile : logFileNames) {
