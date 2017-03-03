@@ -18,6 +18,7 @@ public class Log {
     private String timestamp;
     private String logTimestamp;
     private String error;
+    private String count;
 
     public String getError() {
         if (message != null && message.contains("ERROR")) {

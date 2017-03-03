@@ -54,6 +54,8 @@ public class LogSearchController {
     private List<LogFile> files = new ArrayList<>();
     private Map<String, Integer> offsets = new HashMap<>();
     private int logFileTabIndex;
+    private String tag;
+    private String logFileName;
     private String flowFunctionality;
     private String ipAddress;
     private int aroundMinutes = 1;
@@ -105,7 +107,7 @@ public class LogSearchController {
         for (String logFile : otherLogs) {
             logs = logService.logsSearch(customer, null, null, fromDate, toDate, null, 0, logFile, ipAddress);
             if (!logs.isEmpty()) {
-                offsets.put(logFile, 1000);
+                offsets.put(logFile, 500);
                 System.out.println("\t\tLogfile: " + logFile);
                 System.out.println("\t\tLogfile Size: " + logs.size());
                 LogFile lf = new LogFile();
@@ -182,6 +184,8 @@ public class LogSearchController {
         append("logLevel", logLevel, out);
         append("ipAddress", ipAddress, out);
         append("messageFreeText", messageFreeText, out);
+        append("tags", tag, out);
+        append("fileName", logFileName, out);
 
         String url = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getRequestURL().toString();
         this.bookmarkLink = url + "?" + out.toString() + "saved=true";

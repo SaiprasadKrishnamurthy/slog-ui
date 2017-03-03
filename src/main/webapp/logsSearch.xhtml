@@ -15,7 +15,7 @@
         <p:spacer width="10" height="30"/>
 
         <h:form id="form">
-            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
             <p:panel header="Logs Search" toggleable="true">
                 <h:panelGrid columns="4" cellpadding="5" cellspacing="10">
                     <h:outputText value="Customer"/>
@@ -40,6 +40,10 @@
                     <p:calendar id="datetime1" value="#{logSearch.fromDate}" pattern="MM/dd/yyyy HH:mm:ss"/>
                     <p:outputLabel for="datetime2" value="To:"/>
                     <p:calendar id="datetime2" value="#{logSearch.toDate}" pattern="MM/dd/yyyy HH:mm:ss"/>
+                    <h:outputText value="Log File name (including wildcards)"/>
+                    <p:inputText value="#{logSearch.logFileName}"/>
+                    <h:outputText value="Search tag"/>
+                    <p:inputText value="#{logSearch.tag}"/>
                     <h:outputText value="Log Level"/>
                     <p:selectOneMenu id="logLevel" value="#{logSearch.logLevel}"
                                      panelStyle="width:180px"
@@ -68,7 +72,7 @@
                                      update=":#{p:component('results')}"
                                      icon="fa fa-share" title="Share"
                                      ajax="true" id="share">
-                            </p:commandButton>
+                    </p:commandButton>
                 </h:panelGrid>
             </p:panel>
             <p:separator/>
@@ -89,9 +93,13 @@
                         </p:commandButton>
                     </h:panelGrid>
                     <p:dataTable var="log" value="#{file.logs}">
+                        <f:facet name="header">
+                            Total log entries matching the search criteria: #{log.count}
+                        </f:facet>
                         <p:column style="width:16px">
                             <p:rowToggler/>
                         </p:column>
+
                         <p:column headerText="Timestamp" style="width:100px;">
                             <h:outputText value="#{log.logTimestamp}"/>
                         </p:column>
