@@ -42,7 +42,7 @@ public class LogSearchController {
     private String logLevel;
     private String messageFreeText;
     private Date fromDate = null;
-    private Date toDate = null;
+    private Date toDate = new Date();
     private String file;
     private DefaultDiagramModel model;
     private TreeNode root;
@@ -62,6 +62,10 @@ public class LogSearchController {
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd' 'hh:mm:ss");
     private final List<String> allLogFiles = new ArrayList<>();
     private String bookmarkLink;
+
+    {
+        fromDate = new Date(System.currentTimeMillis() - (1000 * 60 * 60 *24 * 2));
+    }
 
 
     public LogSearchController() {
