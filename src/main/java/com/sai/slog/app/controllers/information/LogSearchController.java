@@ -87,6 +87,8 @@ public class LogSearchController {
             logLevel = rq.getParameter("logLevel");
             ipAddress = rq.getParameter("ipAddress");
             messageFreeText = rq.getParameter("messageFreeText");
+            logFileName = rq.getParameter("fileName");
+            tag = rq.getParameter("tags");
             search();
         }
     }
