@@ -105,7 +105,8 @@ public class LogSearchController {
     private void aroundSearch(Date fromDate, Date toDate) {
 
         // Don't include the ones that are already in the view.
-        List<String> otherLogs = allLogFiles.stream().filter(lf -> !this.files.stream().anyMatch(l -> l.getFileName().equals(lf))).collect(Collectors.toList());
+        List<String> otherLogs = allLogFiles.stream().filter(lf -> !this.files.stream().anyMatch(l -> l.getFileName().equals(lf))).distinct().collect(Collectors.toList());
+
 
         System.out.println("Other log files: " + otherLogs);
         for (String logFile : otherLogs) {
