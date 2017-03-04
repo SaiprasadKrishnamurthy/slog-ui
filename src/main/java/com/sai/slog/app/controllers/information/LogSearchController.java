@@ -60,7 +60,7 @@ public class LogSearchController {
     private String ipAddress;
     private int aroundMinutes = 1;
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd' 'hh:mm:ss");
-    private final List<String> allLogFiles = new ArrayList<>();
+    private final Set<String> allLogFiles = new HashSet<>();
     private String bookmarkLink;
 
     {
