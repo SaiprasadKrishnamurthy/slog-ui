@@ -1,0 +1,84 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jstl/core"
+                template="layout.xhtml">
+
+    <ui:define name="left">
+        <ui:include src="includes/allLinksAsButtons.xhtml"/>
+    </ui:define>
+
+
+    <ui:define name="main">
+
+        <p:spacer width="10" height="30"/>
+
+        <h:form id="form">
+            <h1>Performance Predictions</h1>
+            <p:panel header="How it works?" toggleable="true">
+                Performance metrics (response times) for a specific operation is logged in the log files in the format:
+                <br/>
+                <br/>
+                <b><i>__Perf__ | &lt;functionality> | &lt;operation_name> | &lt;metric_1>: &lt;numeric_value_1> | &lt;metric_2>:
+                    &lt;numeric_value_2> | &lt;metric_3>: &lt;numeric_value_3> |....and so on </i></b>
+                <br/>
+                <br/>
+                These lines are learnt by slog as training samples and one can ask slog to predict a value for a metric
+                given all the other metrics.
+                <br/>
+                The prediction is done using <b>Ordinary Least Squares Linear Regression Method</b>
+                <br/>
+            </p:panel>
+            <h:panelGrid columns="3" cellpadding="5" cellspacing="10">
+                <h:outputText value="Functionality: "/>
+                <p:selectOneMenu id="customer" value="#{perf.functionality}"
+                                 panelStyle="width:180px"
+                                 effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="contains">
+                    <f:selectItem itemLabel="" itemValue="" noSelectionOption="true"/>
+                    <f:selectItems value="#{perf.functionalities}" var="c"
+                                   itemLabel="#{c}"
+                                   itemValue="#{c}"/>
+
+                </p:selectOneMenu>
+                <p:commandButton actionListener="#{perf.view}" value="View Perf Metric Samples"
+                                 update=":#{p:component('results')}"
+                                 icon="fa fa-search" title="View"
+                                 ajax="true"/>
+            </h:panelGrid>
+            <p:spacer height="10"/>
+            <p:tabView id="results">
+                <p:tab title="Prediction">
+                    <p:panel header="Fill up all the fields except the one you want to predict"
+                             rendered="#{perf.render}">
+                        <h:panelGrid columns="2">
+                            <c:forEach var="h" items="#{perf.headers}" varStatus="i">
+                                <p:outputLabel value="#{h}"/>
+                                <p:inputText value="#{perf.values[i.index]}"/>
+                            </c:forEach>
+                            <p:commandButton value="Predict" actionListener="#{perf.predict}"
+                                             rendered="#{perf.render}"/>
+                        </h:panelGrid>
+                    </p:panel>
+                </p:tab>
+                <p:tab title="Data Samples">
+                    <p:dataTable var="p" value="#{perf.performanceLogEvents}" rows="100"
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="10,20,30,50,100,200,300,400">
+                        <f:facet name="header">
+                            <h:outputText value="Performance log samples"/>
+                        </f:facet>
+                        <p:columns value="#{perf.headers}" var="key" columnIndexVar="colIndex">
+                            <f:facet name="header">
+                                <h:outputText value="#{key}"/>
+                            </f:facet>
+                            <h:outputText value="#{p.metricMap[key]}"/>
+                        </p:columns>
+                    </p:dataTable>
+                </p:tab>
+            </p:tabView>
+        </h:form>
+    </ui:define>
+</ui:composition>

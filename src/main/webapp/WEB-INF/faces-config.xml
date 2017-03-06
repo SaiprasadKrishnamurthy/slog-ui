@@ -16,6 +16,11 @@
         <managed-bean-scope>view</managed-bean-scope>
     </managed-bean>
     <managed-bean>
+        <managed-bean-name>perf</managed-bean-name>
+        <managed-bean-class>com.sai.slog.app.controllers.intelligence.PerfPredictionsController</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
         <managed-bean-name>alertConfig</managed-bean-name>
         <managed-bean-class>com.sai.slog.app.controllers.AlertConfigController</managed-bean-class>
         <managed-bean-scope>view</managed-bean-scope>

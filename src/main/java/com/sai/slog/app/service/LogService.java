@@ -3,7 +3,6 @@ package com.sai.slog.app.service;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sai.slog.app.model.*;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
@@ -150,7 +149,7 @@ public class LogService {
 
     public void save(Set<LogCorrelation> logCorrelations) {
         String recoUrl = "http://localhost:9980/logcorrelation";
-        for(LogCorrelation l: logCorrelations) {
+        for (LogCorrelation l : logCorrelations) {
             rest.postForObject(recoUrl, l, Map.class);
         }
     }
@@ -167,5 +166,28 @@ public class LogService {
         String recoUrl = "http://localhost:9980/exceptioncorrelations?customer=%s&exceptionMessage=%s&startTimeInMillis=%s&endTimeInMillis=%s";
         List response = rest.getForObject(String.format(recoUrl, "internal", "Provisioning", 1, System.currentTimeMillis()), List.class);
         System.out.println(response);
+    }
+
+    public List<String> allPerfLogFunctionalities() {
+
+        // TODO
+        return Arrays.asList("CustomReport_Data_Generation");
+    }
+
+    public List<PerformanceLogEvent> perfSamples(String functionality) {
+        List<PerformanceLogEvent> evs = new ArrayList<>();
+        for (int i = 1; i <= 500; i++) {
+            PerformanceLogEvent e = new PerformanceLogEvent();
+            e.setFunctionality(functionality);
+            e.setTimestamp(System.currentTimeMillis());
+            Map<String, Object> m = new LinkedHashMap<>();
+            m.put("Report Name", "Client Count Report");
+            m.put("Total No of Records", i * 1000);
+            m.put("Total JVM Used Memory in MB", 500 * i);
+            m.put("Total Generation Time in seconds", 38 * i);
+            e.setMetricMap(m);
+            evs.add(e);
+        }
+        return evs;
     }
 }
