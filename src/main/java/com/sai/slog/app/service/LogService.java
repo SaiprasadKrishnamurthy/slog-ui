@@ -183,11 +183,17 @@ public class LogService {
             Map<String, Object> m = new LinkedHashMap<>();
             m.put("Report Name", "Client Count Report");
             m.put("Total No of Records", i * 1000);
-            m.put("Total JVM Used Memory in MB", 500 * i);
             m.put("Total Generation Time in seconds", 38 * i);
             e.setMetricMap(m);
             evs.add(e);
         }
         return evs;
+    }
+
+    public double predictPerf(PerfPredictionRequest perfPredictionRequest) {
+        String recoUrl = "http://localhost:9980/perfmetric";
+        Map response = rest.postForObject(recoUrl, perfPredictionRequest, Map.class);
+        System.out.println(response);
+        return (Double) response.get("result");
     }
 }

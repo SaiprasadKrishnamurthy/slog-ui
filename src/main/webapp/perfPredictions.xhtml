@@ -50,17 +50,30 @@
             <p:spacer height="10"/>
             <p:tabView id="results">
                 <p:tab title="Prediction">
-                    <p:panel header="Fill up all the fields except the one you want to predict"
-                             rendered="#{perf.render}">
-                        <h:panelGrid columns="2">
-                            <c:forEach var="h" items="#{perf.headers}" varStatus="i">
-                                <p:outputLabel value="#{h}"/>
-                                <p:inputText value="#{perf.values[i.index]}"/>
-                            </c:forEach>
-                            <p:commandButton value="Predict" actionListener="#{perf.predict}"
-                                             rendered="#{perf.render}"/>
-                        </h:panelGrid>
-                    </p:panel>
+                    <h:panelGrid columns="10">
+                        <p:panel header="Fill up all the fields except the one you want to predict"
+                                 rendered="#{perf.render}">
+                            <h:panelGrid columns="2">
+                                <c:forEach var="h" items="#{perf.headers}" varStatus="i">
+                                    <p:outputLabel value="#{h}"/>
+                                    <p:inputText value="#{perf.values[i.index]}"/>
+                                </c:forEach>
+                                <p:commandButton value="Predict" actionListener="#{perf.predict}"
+                                                 rendered="#{perf.render}" update=":#{p:component('results')}"/>
+                            </h:panelGrid>
+                        </p:panel>
+                        <p:spacer width="10"></p:spacer>
+                        <p:spacer width="10"></p:spacer>
+                        <p:spacer width="10"></p:spacer>
+                        <p:spacer width="10"></p:spacer>
+                        <p:spacer width="10"></p:spacer>
+                        <p:spacer width="10"></p:spacer>
+                        <p:spacer width="10"></p:spacer>
+                        <p:panel header="Prediction Result" rendered="#{perf.renderPredict}">
+                            <h1>Predicted value: #{perf.perfPredictionValue}</h1>
+                        </p:panel>
+
+                    </h:panelGrid>
                 </p:tab>
                 <p:tab title="Data Samples">
                     <p:dataTable var="p" value="#{perf.performanceLogEvents}" rows="100"
